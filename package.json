@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec tsx src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "migrate:make": "knex migrate:make -x ts",
-    "migrate:latest": "knex migrate:latest",
-    "migrate:rollback": "knex migrate:rollback",
-    "seed:make": "knex seed:make -x ts",
-    "seed:run": "knex seed:run"
-  },
+  "dev": "nodemon --exec tsx src/server.ts",
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "migrate:make": "knex migrate:make -x ts",
+  "migrate:latest": "tsx node_modules/knex/bin/cli.js migrate:latest",
+  "migrate:rollback": "tsx node_modules/knex/bin/cli.js migrate:rollback",
+  "seed:make": "knex seed:make -x ts",
+  "seed:run": "tsx node_modules/knex/bin/cli.js seed:run"
+},
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
@@ -21,6 +21,7 @@
     "eslint": "^10.8.1",
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
+    "ts-node": "^10.9.2",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   },
