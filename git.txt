@@ -1,0 +1,12 @@
+echo "# vehicle-rental-backend" >> README.md
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Asmual/vehicle-rental-backend.git
+git push -u origin main
+
+
+git add .
+git commit -m "Initialize project structure and setup core folders, environment, and dependencies for vehicle rental backend."
+git push
