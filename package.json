@@ -4,13 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec tsx src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "migrate:make": "knex migrate:make -x ts",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback",
+    "seed:make": "knex seed:make -x ts",
+    "seed:run": "knex seed:run"
   },
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^26.2.0",
     "eslint": "^10.8.1",
+    "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"

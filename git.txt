@@ -8,5 +8,5 @@ git push -u origin main
 
 
 git add .
-git commit -m "Initialize project structure and setup core folders, environment, and dependencies for vehicle rental backend."
+git commit -m "chore: setup knex postgres connection and scripts"
 git push
