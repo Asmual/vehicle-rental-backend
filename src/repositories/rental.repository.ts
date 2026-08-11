@@ -20,7 +20,7 @@ export class RentalRepository {
   }
 
   async findVehicleById(vehicleId: number) {
-    return await this.db('vehicles').where({ id: vehicleId, is_deleted: false }).first();
+    return await this.db('vehicles').where({ id: vehicleId, deleted_at: null }).first();
   }
 
   async create(data: any) {

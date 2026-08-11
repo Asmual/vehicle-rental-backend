@@ -3,6 +3,7 @@ import path from 'path';
 import authRoutes from './routes/auth.routes';
 import vehicleRoutes from './routes/vehicleRoutes';
 import rentalRoutes from './routes/rental.routes';
+import reportRoutes from './routes/report.routes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app: Application = express();
@@ -16,6 +17,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/vehicles', vehicleRoutes);
 app.use('/api/v1/rentals', rentalRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({

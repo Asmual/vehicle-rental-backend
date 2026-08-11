@@ -1,4 +1,10 @@
-import { RentalRepository } from '../repositories/rental.repository';
+import { RentalRepository } from "../repositories/rental.repository";
+
+const createError = (message: string, statusCode: number) => {
+  const error: any = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+};
 
 export class RentalService {
   constructor(private rentalRepository: RentalRepository) {}
@@ -12,14 +18,23 @@ export class RentalService {
   }
 
   async createRental(data: any) {
-    const vehicle = await this.rentalRepository.findVehicleById(data.vehicle_id);
+    const vehicle = await this.rentalRepository.findVehicleById(
+      data.vehicle_id,
+    );
     if (!vehicle) {
-      throw { status: 404, message: 'Vehicle not found or inactive' };
+      throw createError("Vehicle not found or inactive", 404);
     }
 
-    const isOverlapping = await this.rentalRepository.checkOverlap(data.vehicle_id, data.start_date, data.end_date);
+    const isOverlapping = await this.rentalRepository.checkOverlap(
+      data.vehicle_id,
+      data.start_date,
+      data.end_date,
+    );
     if (isOverlapping) {
-      throw { status: 409, message: 'Vehicle is already rented for the selected dates' };
+      throw createError(
+        "Vehicle is already rented for the selected dates",
+        409,
+      );
     }
 
     const days = this.calculateDays(data.start_date, data.end_date);
@@ -28,7 +43,7 @@ export class RentalService {
     return await this.rentalRepository.create({
       ...data,
       total_amount: totalAmount,
-      status: 'booked',
+      status: "booked",
     });
   }
 
@@ -39,7 +54,7 @@ export class RentalService {
   async getRentalById(id: number) {
     const rental = await this.rentalRepository.findById(id);
     if (!rental) {
-      throw { status: 404, message: 'Rental record not found' };
+      throw createError("Rental record not found", 404);
     }
     return rental;
   }
@@ -51,12 +66,22 @@ export class RentalService {
     const endDate = data.end_date || rental.end_date;
 
     if (data.start_date || data.end_date) {
-      const isOverlapping = await this.rentalRepository.checkOverlap(rental.vehicle_id, startDate, endDate, id);
+      const isOverlapping = await this.rentalRepository.checkOverlap(
+        rental.vehicle_id,
+        startDate,
+        endDate,
+        id,
+      );
       if (isOverlapping) {
-        throw { status: 409, message: 'Updated dates overlap with an existing rental' };
+        throw createError(
+          "Updated dates overlap with an existing rental",
+          409,
+        );
       }
 
-      const vehicle = await this.rentalRepository.findVehicleById(rental.vehicle_id);
+      const vehicle = await this.rentalRepository.findVehicleById(
+        rental.vehicle_id,
+      );
       const days = this.calculateDays(startDate, endDate);
       data.total_amount = days * Number(vehicle.daily_rate);
     }
@@ -67,8 +92,8 @@ export class RentalService {
   async deleteRental(id: number) {
     const deletedCount = await this.rentalRepository.delete(id);
     if (!deletedCount) {
-      throw { status: 404, message: 'Rental record not found' };
+      throw createError("Rental record not found", 404);
     }
-    return { message: 'Rental deleted successfully' };
+    return { message: "Rental deleted successfully" };
   }
 }
