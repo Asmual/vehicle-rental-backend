@@ -2,7 +2,7 @@
 
 A robust, production-ready RESTful backend service for a Vehicle Rental Management System built with **Node.js**, **TypeScript**, **Express**, **Knex.js**, and **PostgreSQL**.
 
-This system allows company staff to manage vehicle fleets, handle customer rental bookings, compute rental charges dynamically, prevent double-booking overlaps via database transactions, and generate precise monthly activity and revenue reports.
+This system allows company staff/admins to manage vehicle fleets, process authentication, handle customer rental bookings, and secure API endpoints using JWT authentication and input validation.
 
 ---
 
@@ -11,34 +11,27 @@ This system allows company staff to manage vehicle fleets, handle customer renta
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Architecture & Design Patterns](#-architecture--design-patterns)
-- [Database Schema](#-database-schema)
-- [Core Business Logics](#-core-business-logics)
-  - [1. Overlap Prevention Algorithm](#1-overlap-prevention-algorithm)
-  - [2. Monthly Boundary Report Logic](#2-monthly-boundary-report-logic)
 - [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Environment Variables](#environment-variables)
   - [Database Migrations & Seeding](#database-migrations--seeding)
   - [Running the Application](#running-the-application)
-- [API Documentation](#-api-documentation)
+- [API Endpoints](#-api-endpoints)
   - [Authentication](#authentication)
   - [Vehicles Fleet Management](#vehicles-fleet-management)
-  - [Rentals Management](#rentals-management)
-  - [Reports](#reports)
-- [Code Quality & Linting](#-code-quality--linting)
+- [Validation & Error Handling](#-validation--error-handling)
 - [License](#-license)
 
 ---
 
 ## 🌟 Features
 
-- **Authentication & Security:** JWT-based staff authentication with encrypted password hashing (`bcrypt`), rate limiting on login routes, and request validation (`Joi` / `express-validator`).
-- **Fleet Management:** Complete CRUD operations for vehicles, supporting search by name, category filtering, pagination, file uploads for vehicle images via `Multer`, and safe **Soft Deletes**.
-- **Overlap-Free Booking Engine:** Advanced concurrency-safe booking logic wrapped in database transactions to prevent double-booking for overlapping date ranges.
-- **Automated Billing:** Dynamic calculation of total booking fees based on daily rates and rental duration.
-- **Precise Monthly Reporting:** Detailed monthly rental reports with boundary cut-offs (partial month overlap calculations) and identification of top-revenue vehicles.
-- **Enterprise-Grade Architecture:** Fully object-oriented layered structure (`Controller` -> `Service` -> `Repository`) with strict TypeScript typing.
+- **Authentication & Security:** JWT-based staff/admin authentication with secure route guards (`authenticate` & `authorizeRoles`).
+- **Fleet Management:** Full CRUD operations for vehicles with support for category filtering, custom pricing, image photo path allocation, and **Soft Deletes**.
+- **Request Validation:** Strict runtime input validation implemented using `Joi` schema validation middleware to enforce clean data flow.
+- **Global Error Handling:** Centralized error handling mechanism to ensure consistent API responses and proper HTTP status codes.
+- **Enterprise-Grade Architecture:** Fully modular layered architecture written in strict **TypeScript** for type safety and scalability.
 
 ---
 
@@ -47,15 +40,38 @@ This system allows company staff to manage vehicle fleets, handle customer renta
 - **Runtime:** Node.js (v18+)
 - **Language:** TypeScript
 - **Framework:** Express.js
-- **Database:** PostgreSQL (with `pg` driver)
+- **Database:** PostgreSQL
 - **Query Builder:** Knex.js
 - **Authentication:** JSON Web Tokens (JWT) & Bcrypt
-- **Validation:** Joi / Express Validator
-- **File Upload:** Multer
-- **Linting & Formatting:** ESLint & Prettier
+- **Validation:** Joi
+- **Static File Handling:** Express Static Uploads
+- **Development Tooling:** `ts-node-dev` / `nodemon`
 
 ---
 
 ## 📐 Architecture & Design Patterns
 
-The project follows strict **Object-Oriented Programming (OOP)** principles and layered architecture:
+The project follows strict **RESTful API** guidelines and a clean modular design pattern:
+- **Routes Layer:** Handles request routing and maps endpoints to controllers.
+- **Middlewares Layer:** Intercepts incoming requests for JWT validation, Role-Based Access Control (RBAC), Joi input validation, and global exception handling.
+- **Controllers Layer:** Handles incoming HTTP requests and returns standardized JSON responses.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed on your local machine:
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [PostgreSQL](https://www.postgresql.org/) (v14 or higher)
+- [Postman](https://www.postman.com/) or any API testing client
+
+---
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <YOUR_REPOSITORY_URL>
+   cd vehicle-rental-backend
