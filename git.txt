@@ -8,5 +8,5 @@ git push -u origin main
 
 
 git add .
-git commit -m "feat: setup database schema migrations and seed data"
+git commit -m "feat: add validation, auth, and error handling add Joi validation, JWT auth middleware, and global error handler"
 git push

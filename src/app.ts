@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import path from 'path';
 import authRoutes from './routes/auth.routes';
 import vehicleRoutes from './routes/vehicleRoutes';
+import { errorHandler } from './middlewares/errorHandler';
 
 const app: Application = express();
 
@@ -20,5 +21,8 @@ app.get('/', (req: Request, res: Response) => {
     message: 'Vehicle Rental Backend API is running successfully!',
   });
 });
+
+// Global Error Handler
+app.use(errorHandler);
 
 export default app;
