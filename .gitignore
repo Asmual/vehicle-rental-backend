@@ -3,4 +3,5 @@ dist/
 uploads/
 *.log
 .DS_Store
+
 config.bat
