@@ -5,3 +5,6 @@ uploads/
 .DS_Store
 
 config.bat
+
+api.js
+director.js
