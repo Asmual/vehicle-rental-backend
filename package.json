@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec tsx src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
+    "dev": "node init && nodemon --exec tsx src/server.ts",
+    "build": "node init && tsc",
+    "start": "node init && node dist/server.js",
     "migrate:make": "knex migrate:make -x ts",
     "migrate:latest": "tsx node_modules/knex/bin/cli.js migrate:latest",
     "migrate:rollback": "tsx node_modules/knex/bin/cli.js migrate:rollback",

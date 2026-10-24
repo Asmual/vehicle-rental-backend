@@ -14,7 +14,6 @@ director.js
 .env*.local
 *.env
 
-.vscode/
 git.txt
 myGit.txt
 AGENTS.md
